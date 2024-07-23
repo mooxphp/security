@@ -1,6 +1,6 @@
 <?php
 
-namespace Moox\Builder\Commands;
+namespace Moox\Security\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -20,14 +20,14 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'mooxbuilder:install';
+    protected $signature = 'mooxsecurity:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Installs Moox Builder, publishes configuration, migrations and registers plugins.';
+    protected $description = 'Installs Moox Security, publishes configuration, migrations and registers plugins.';
 
     /**
      * Execute the console command.
@@ -37,8 +37,8 @@ class InstallCommand extends Command
         $this->art();
         $this->welcome();
         $this->publishConfiguration();
-        $this->publishMigrations();
-        $this->runMigrations();
+        //        $this->publishMigrations();
+        //        $this->runMigrations();
         $this->registerPlugins();
         $this->finish();
     }
@@ -66,42 +66,42 @@ class InstallCommand extends Command
 
     public function welcome(): void
     {
-        info('Welcome to Moox Builder Installer');
+        info('Welcome to Moox Security Installer');
     }
 
     public function publishConfiguration(): void
     {
         if (confirm('Do you wish to publish the configuration?', true)) {
-            if (! File::exists('config/builder.php')) {
-                info('Publishing Builder Configuration...');
-                $this->callSilent('vendor:publish', ['--tag' => 'builder-config']);
+            if (! File::exists('config/security.php')) {
+                info('Publishing Security Configuration...');
+                $this->callSilent('vendor:publish', ['--tag' => 'security-config']);
 
                 return;
             }
-            warning('The Builder config already exist. The config will not be published.');
+            warning('The Security config already exist. The config will not be published.');
         }
     }
 
-    public function publishMigrations(): void
-    {
-        if (confirm('Do you wish to publish the migrations?', true)) {
-            if (Schema::hasTable('items')) {
-                warning('The items table already exists. The migrations will not be published.');
-
-                return;
-            }
-            info('Publishing Items Migrations...');
-            $this->callSilent('vendor:publish', ['--tag' => 'builder-migrations']);
-        }
-    }
-
-    public function runMigrations(): void
-    {
-        if (confirm('Do you wish to run the migrations?', true)) {
-            info('Running Builder Migrations...');
-            $this->callSilent('migrate');
-        }
-    }
+    //    public function publishMigrations(): void
+    //    {
+    //        if (confirm('Do you wish to publish the migrations?', true)) {
+    //            if (Schema::hasTable('securities')) {
+    //                warning('The securities table already exists. The migrations will not be published.');
+    //
+    //                return;
+    //            }
+    //            info('Publishing Securitys Migrations...');
+    //            $this->callSilent('vendor:publish', ['--tag' => 'security-migrations']);
+    //        }
+    //    }
+    //
+    //    public function runMigrations(): void
+    //    {
+    //        if (confirm('Do you wish to run the migrations?', true)) {
+    //            info('Running Security Migrations...');
+    //            $this->callSilent('migrate');
+    //        }
+    //    }
 
     public function registerPlugins(): void
     {
@@ -112,12 +112,12 @@ class InstallCommand extends Command
 
             $intend = '                ';
 
-            $namespace = "\Moox\Builder";
+            $namespace = "\Moox\Security";
 
             $pluginsToAdd = multiselect(
                 label: 'These plugins will be installed:',
-                options: ['BuilderPlugin'],
-                default: ['BuilderPlugin'],
+                options: ['SecurityPlugin', 'ResetPasswordPlugin'],
+                default: ['SecurityPlugin', 'ResetPasswordPlugin'],
             );
 
             $function = '::make(),';
@@ -180,6 +180,6 @@ class InstallCommand extends Command
 
     public function finish(): void
     {
-        note('Moox Builder installed successfully. Enjoy!');
+        note('Moox Security installed successfully. Enjoy!');
     }
 }

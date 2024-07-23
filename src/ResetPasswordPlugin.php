@@ -1,25 +1,25 @@
 <?php
 
-namespace Moox\Builder;
+namespace Moox\Security;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
-use Moox\Builder\Resources\BuilderResource;
+use Moox\Security\Resources\ResetPasswordResource;
 
-class BuilderPlugin implements Plugin
+class ResetPasswordPlugin implements Plugin
 {
     use EvaluatesClosures;
 
     public function getId(): string
     {
-        return 'builder';
+        return 'reset-password';
     }
 
     public function register(Panel $panel): void
     {
         $panel->resources([
-            BuilderResource::class,
+            ResetPasswordResource::class,
         ]);
     }
 
