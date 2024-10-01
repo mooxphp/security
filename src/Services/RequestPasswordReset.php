@@ -81,6 +81,7 @@ class RequestPasswordReset extends SimplePage
                 $notification = new PasswordResetNotification($token);
 
                 $user->notify($notification);
+
             },
         );
 

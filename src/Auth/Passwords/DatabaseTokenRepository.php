@@ -63,6 +63,7 @@ class DatabaseTokenRepository extends DatabaseTokenRepositoryBase
             ->where('email', $email)
             ->where('user_type', $userType)
             ->delete();
+
     }
 
     /**

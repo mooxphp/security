@@ -30,6 +30,7 @@ class PasswordResetNotification extends Notification implements ShouldQueue
 
     public function via($notifiable): array
     {
+
         return ['mail'];
     }
 
